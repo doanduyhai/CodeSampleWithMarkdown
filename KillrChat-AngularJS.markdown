@@ -216,11 +216,33 @@ public void removeUserFromChatRoom(@PathVariable @NotEmpty String roomName, @Not
 ```
 
 ```javascript
+killrChat.service('ParticipantService', function(){
+    var self = this;
+    this.sortParticipant = function(participantA,participantB){
+        return participantA.firstname.localeCompare(participantB.firstname);
+    };
 
+    this.addParticipantToCurrentRoom = function(currentRoom, participantToAdd) {
+        currentRoom.participants.push(participantToAdd);
+        currentRoom.participants.sort(self.sortParticipant);
+    };
+
+    this.removeParticipantFromCurrentRoom = function(currentRoom, participantToRemove) {
+        var indexToRemove = currentRoom.participants.map(function(p){return p.login}).indexOf(participantToRemove.login);
+        currentRoom.participants.splice(indexToRemove, 1);
+    };
+});
 ```
 
-```javascript
+```html
+<input type="password" class="form-control" name="password" 
+    placeholder="Password" 
+    ng-model="user.password" required>
 
+<input type="password" class="form-control" name="confirm_password" 
+    placeholder="Password Confirm" 
+    password-match="user.password" 
+    ng-model="user.passwordConfirm" required>
 ```
 
 ```javascript
