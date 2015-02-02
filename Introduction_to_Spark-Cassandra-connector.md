@@ -268,27 +268,31 @@ Slide 85
 
 ```scala
  val freqs = ones.reduceByKey { case (count1, count2) => count1 + count2}
- val freqs_60s = freqs.window(Seconds(60), Second(1))
-				  .reduceByKey { case (count1, count2) => count1 + count2}
+ val freqs_60s = freqs.window(windowDuration = Seconds(60), 
+ 				slideDuration = Second(20))
+			.reduceByKey { case (count1, count2) => count1 + count2}
 
  // or
 
- val freqs_60s = ones.reduceByKeyAndWindow(couple => couple._1+couple._2, 
-									    Seconds(60), Seconds(1)) 
+ val freqs_60s = ones.reduceByKeyAndWindow(couple => couple._1+couple._2,
+ 						windowDuration = Seconds(60), 
+ 						slideDuration = Seconds(20)) 
 ```
 
 Slide 87
 
 ```scala
  val freqs = ones.reduceByKey { case (count1, count2) => count1 + count2}
- val freqs_60s = freqs.window(Seconds(60), Second(1))
-				  .reduceByKey { case (count1, count2) => count1 + count2}
+ val freqs_60s = freqs.window(windowDuration = Seconds(60), 
+ 				slideDuration = Second(20))
+			.reduceByKey { case (count1, count2) => count1 + count2}
 
  // or
 
  val freqs_60s = ones.reduceByKeyAndWindow(couple => couple._1+couple._2, 
-									   couple => couple._1 - couple._2, //inverse
-									   Seconds(60), Seconds(1)) 
+						couple => couple._1 - couple._2, //inverse
+						windowDuration = Seconds(60), 
+ 						slideDuration = Seconds(20)) 
 ```
 
 Slide 90
